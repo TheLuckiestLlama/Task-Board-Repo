@@ -2,6 +2,13 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
+const myModal = document.getElementById('formModal')
+const myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
+
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
 
