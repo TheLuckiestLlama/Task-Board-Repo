@@ -16,3 +16,10 @@ body {
 .taskCard:hover {
   cursor: grab;
 }
+
+.removeButton {
+  background-color: red;
+  border-radius: 20%;
+  border: 5px red;
+  color: white;
+}
