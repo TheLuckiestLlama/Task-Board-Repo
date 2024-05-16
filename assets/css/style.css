@@ -11,6 +11,21 @@ body {
   margin: 0 auto;
   border: 5px solid black;
   z-index: 10000;
+  background-color: white;
+}
+
+.inProgress {
+  margin: 0 auto;
+  border: 5px solid black;
+  z-index: 10000;
+  background-color: orange;
+}
+
+.noBueno {
+  margin: 0 auto;
+  border: 5px solid black;
+  z-index: 10000;
+  background-color: red;
 }
 
 .taskCard:hover {

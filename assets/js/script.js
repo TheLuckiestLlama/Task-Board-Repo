@@ -4,27 +4,30 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 const formModal = document.getElementById('formModal');
 const taskName = document.getElementById('taskName');
+const dueDate = document.getElementById('datepicker')
 
-// TESTING ZONE
-// let newTestCard = document.createElement(`div`);
-//   newTestCard.setAttribute('ID', 'blamass');
-//   newTestCard.setAttribute('class', 'taskCard');
-//   $(newTestCard).draggable();
-//   newTestCard.textContent = "Doin a bit of stuff";
-// // Make remove button for removing stuff (Duh)
-//   let newDeleteButton = document.createElement('button')
-//   newDeleteButton.textContent = "Remove";
-//   newDeleteButton.setAttribute('class', 'removeButton');
-//   todoCards.appendChild(newTestCard);
-//   newTestCard.appendChild(newDeleteButton);
-  // --------TESTING ENDS HERE--------
 
 formModal.addEventListener('shown.bs.modal', () => {
   taskName.focus()
 })
 
-
+// GET FUCKED THIS IS GONNA BE A MESS!!!!!
 let taskArray = []
+
+
+// Due dates Probably broken just give up.
+const compareDates = function(dueDate){
+  const formattedDueDate = dayjs(dueDate);
+  console.log(formattedDueDate);
+  let today = dayjs();
+  if (formattedDueDate == today){
+    console.log("OH FAURK ITS DUE")
+    return{cardBg: 'noBueno', btnBorder: 'border-white'};
+  }
+
+
+
+  }
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -52,17 +55,7 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-  for (let i = 0; i < savedTaskList; i++){
-    let savedTasks = localStorage.getItem('taskData');
-    let savedTaskList = JSON.parse(savedTasks);
-    console.log(savedTaskList[i]);
-    let newRenderedCard = document.createElement(`div`);
-    let itemID = savedTaskList[i].ID.value;
-    let itemTask = savedTaskList[i].task.value;
-    newRenderedCard.setAttribute('class', itemID);
-    newRenderedCard.textContent = itemTask;
-    todoCards.appendChild(newRenderedCard);
-  }
+// Fuck this don't bother.
 }
 // Todo: create a function to handle adding a new task
 addTask.addEventListener('click', function(event){
@@ -77,6 +70,11 @@ addTask.addEventListener('click', function(event){
   newAddedCard.setAttribute('class', 'taskCard');
   $(newAddedCard).draggable();
   newAddedCard.textContent = task;
+  newAddedCard.dueDate = dueDate;
+  compareDates(newAddedCard.dueDate.value);
+
+
+
 // Make remove button for removing stuff (Duh)
   let newRemoveButton = document.createElement('button')
   newRemoveButton.textContent = "Remove";
@@ -105,8 +103,21 @@ const externalRemove = function(){
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-  console.log("You dropped this, king.")
+  const taskId = ui.draggable[0].dataset.taskList;
+
+  const newStatus = event.target.id;
+  taskArray.forEach((task) => {
+    if(task.id === taskId)
+{task.status = newStatus;
+  console.log(task.status);
 }
+
+if (task.status === "in-progress"){
+  console.log("This is in progress!");
+} else if (task.status === "done"){
+  console.log("This is complete!");
+}
+})}
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
@@ -116,5 +127,8 @@ $(document).ready(function () {
         accept: '.taskCard',
         drop: handleDrop,
     });
+    $( function() {
+      $( "#datepicker" ).datepicker();
+    } );
 });
 });
