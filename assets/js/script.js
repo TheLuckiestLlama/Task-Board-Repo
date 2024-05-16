@@ -5,7 +5,19 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 const formModal = document.getElementById('formModal');
 const taskName = document.getElementById('taskName');
 
-
+// TESTING ZONE
+// let newTestCard = document.createElement(`div`);
+//   newTestCard.setAttribute('ID', 'blamass');
+//   newTestCard.setAttribute('class', 'taskCard');
+//   $(newTestCard).draggable();
+//   newTestCard.textContent = "Doin a bit of stuff";
+// // Make remove button for removing stuff (Duh)
+//   let newDeleteButton = document.createElement('button')
+//   newDeleteButton.textContent = "Remove";
+//   newDeleteButton.setAttribute('class', 'removeButton');
+//   todoCards.appendChild(newTestCard);
+//   newTestCard.appendChild(newDeleteButton);
+  // --------TESTING ENDS HERE--------
 
 formModal.addEventListener('shown.bs.modal', () => {
   taskName.focus()
@@ -16,7 +28,7 @@ let taskArray = []
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-  newID = Math.floor(Math.random() * Date.now())
+  newID = Math.floor(Math.random() * Date.now()).toString();
   return newID;
 }
 
@@ -26,7 +38,7 @@ function createTaskCard(task) {
   newTaskCard.task = task;
   newTaskCard.ID = newID;
   taskArray.push(newTaskCard);
-  let taskData = JSON.stringify(taskArray);
+  const taskData = JSON.stringify(taskArray);
   localStorage.setItem('taskData', taskData);
   console.log("Item added to list.");
   console.log(taskData);
@@ -71,27 +83,38 @@ addTask.addEventListener('click', function(event){
   newRemoveButton.setAttribute('class', 'removeButton');
   todoCards.appendChild(newAddedCard);
   newAddedCard.appendChild(newRemoveButton);
+
+  let removeButton = document.getElementById(newID);
+  removeButton.addEventListener('click', function(event){
+    event.preventDefault();
+    console.log("Button Pressed!")
+    let removeTarget = removeButton;
+    removeTarget.remove();
+
+  })
+
 })
 
 // Todo: create a function to handle deleting a task
-// let removeButton = document.querySelector('.removeButton');
-
-// removeButton.addEventListener('click', function(event){
-//   event.preventDefault();
-//   let removeTarget = removeButton.parentElement();
-//   removeTarget.remove();
-
-
-// })
+const externalRemove = function(){
+  let removeTarget = removeButton.parentNode;
+  removeTarget.remove();
+}
 
 
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-
+  console.log("You dropped this, king.")
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-  renderTaskList(savedTaskList);
+  $('#todoCards').sortable
+  $(function() {
+    $('.lane').droppable({
+        accept: '.taskCard',
+        drop: handleDrop,
+    });
+});
 });
